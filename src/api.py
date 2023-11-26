@@ -83,10 +83,20 @@ async def read_stock_spot(
     df = df.iloc[start:end]
 
     df_dict = df.to_dict(orient="records")
+    total = len(df_dict)
 
     return {
         "update_time": update_time,
         "spot_data": df_dict,
         "page": page,
         "page_size": page_size,
+        "total": total,
+        "max_page": cal_max_page(total, page_size)
     }
+
+
+def cal_max_page(total, page_size):
+    if total % page_size == 0:
+        return total // page_size
+    else:
+        return total // page_size + 1
