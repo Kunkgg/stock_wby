@@ -1,6 +1,8 @@
 import akshare as ak
 import pandas as pd
 
+from logger import logger
+
 
 def stock_zh_a_spot() -> pd.DataFrame:
     """
@@ -11,7 +13,9 @@ def stock_zh_a_spot() -> pd.DataFrame:
     描述: 东方财富网-沪深京 A 股-实时行情数据
     限量: 单次返回所有沪深京 A 股上市公司的实时行情数据
     """
-    return ak.stock_zh_a_spot_em()
+    a_df = ak.stock_zh_a_spot_em()
+    logger.info("stock_zh_a_spot: %s, %s", a_df.shape[0], a_df.shape[1])
+    return a_df
 
 
 def stock_hk_spot() -> pd.DataFrame:
@@ -22,7 +26,9 @@ def stock_hk_spot() -> pd.DataFrame:
     描述: 所有港股的实时行情数据; 该数据有 15 分钟延时
     限量: 单次返回最近交易日的所有港股的数据
     """
-    return ak.stock_hk_spot_em()
+    hk_df = ak.stock_hk_spot_em()
+    logger.info("stock_hk_spot: %s, %s", hk_df.shape[0], hk_df.shape[1])
+    return hk_df
 
 
 def stock_all_spot() -> pd.DataFrame:
@@ -32,5 +38,9 @@ def stock_all_spot() -> pd.DataFrame:
     a_df = stock_zh_a_spot()
     hk_df = stock_hk_spot()
     all_df = pd.concat([a_df, hk_df], axis=0, ignore_index=True)
+    logger.info("stock_all_spot: %s, %s", all_df.shape[0], all_df.shape[1])
     return all_df
 
+
+if __name__ == "__main__":
+    stock_all_spot()
