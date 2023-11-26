@@ -1,0 +1,4 @@
+akshare
+celery
+redis
+flower
