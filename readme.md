@@ -1,0 +1,1 @@
+python -m pytest -s --log-cli-level=INFO .\tests\test_store.py 

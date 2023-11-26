@@ -1,10 +1,8 @@
-import unittest
-
 from src.spot import stock_all_spot
 
 
-class TestSpot(unittest.TestCase):
-    def test_stock_all_spot(self):
-        df = stock_all_spot()
-        self.assertTrue(df is not None)
-        self.assertTrue(len(df) > 0)
+def test_stock_all_spot():
+    df = stock_all_spot()
+    assert df is not None
+    assert len(df) > 0
+    df.to_excel("test.xlsx", index=False)

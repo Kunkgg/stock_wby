@@ -1,7 +1,7 @@
 import akshare as ak
 import pandas as pd
 
-from logger import logger
+from src.logger import logger
 
 
 def stock_zh_a_spot() -> pd.DataFrame:
@@ -36,11 +36,9 @@ def stock_all_spot() -> pd.DataFrame:
     返回所有 A 股和港股的实时行情数据
     """
     a_df = stock_zh_a_spot()
+    a_df['market'] = 'A'
     hk_df = stock_hk_spot()
+    hk_df['market'] = 'HK'
     all_df = pd.concat([a_df, hk_df], axis=0, ignore_index=True)
     logger.info("stock_all_spot: %s, %s", all_df.shape[0], all_df.shape[1])
     return all_df
-
-
-if __name__ == "__main__":
-    stock_all_spot()
