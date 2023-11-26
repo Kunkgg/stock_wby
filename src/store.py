@@ -6,7 +6,7 @@ from redis import Redis
 from src.spot import stock_all_spot
 from src.consts import TIME_FMT
 
-r = Redis(host="localhost", port=6379, db=0)
+r = Redis(host="redis", port=6379, db=0)
 
 
 # 2. 把 DataFrame 对象转换成 json 字符串
@@ -39,10 +39,16 @@ def save_stock_all_spot():
 
 def read_stock_all_spot():
     value = read_from_redis("stock_all_spot")
+    if not value:
+        return None
+
     df = json_to_df(value)
     return df
 
 
 def read_stock_all_spot_updatetime():
     value = read_from_redis("stock_all_spot_updatetime")
+    if not value:
+        return None
+
     return datetime.strptime(value.decode("utf-8"), TIME_FMT)
