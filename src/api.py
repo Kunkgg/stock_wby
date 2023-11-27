@@ -21,7 +21,7 @@ save_stock_all_spot()
 app = FastAPI()
 
 
-@app.get("/stock/spot/{stock_code}")
+@app.get("/api/stock/spot/{stock_code}")
 async def get_stock_spot_by_code(stock_code):
     update_time = read_stock_all_spot_updatetime()
     df = read_stock_all_spot()
@@ -40,7 +40,7 @@ async def get_stock_spot_by_code(stock_code):
     }
 
 
-@app.get("/stock/spot")
+@app.get("/api/stock/spot")
 async def read_stock_spot(
     page: int = 1,
     page_size: int = 50,
