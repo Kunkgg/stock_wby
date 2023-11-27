@@ -32,7 +32,7 @@ async def get_stock_spot_by_code(stock_code):
     if item.empty:
         raise HTTPException(status_code=404, detail="No data")
 
-    item.fillna(value='', inplace=True)
+    item.fillna(value="", inplace=True)
     item_dict = item.to_dict(orient="records")
     return {
         "update_time": update_time,
@@ -74,7 +74,7 @@ async def read_stock_spot(
             market_l = [market]
         df = df[df["market"].isin(market_l)]
 
-    df.fillna(value='', inplace=True)
+    df.fillna(value="", inplace=True)
     # Calculate start and end indices for the slice of data to return
     start = (page - 1) * page_size
     end = start + page_size
@@ -91,8 +91,16 @@ async def read_stock_spot(
         "page": page,
         "page_size": page_size,
         "total": total,
-        "max_page": cal_max_page(total, page_size)
+        "max_page": cal_max_page(total, page_size),
     }
+
+
+@app.post("/api/stock/spot/refresh")
+async def refresh_stock_spot():
+    data = save_stock_all_spot()
+    if data["spot_data"] is None:
+        raise HTTPException(status_code=404, detail="Refresh stock spot failed")
+    return {"update_time": data["update_time"], "total": len(data["spot_data"])}
 
 
 def cal_max_page(total, page_size):

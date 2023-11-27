@@ -31,10 +31,23 @@ def json_to_df(value):
 
 
 def save_stock_all_spot():
-    df = stock_all_spot()
-    stock_all_spot_updatetime = datetime.now().strftime(TIME_FMT)
-    save_to_redis("stock_all_spot_updatetime", stock_all_spot_updatetime)
-    save_to_redis("stock_all_spot", df_to_json(df))
+    try:
+        df = stock_all_spot()
+        df_dict = df.to_dict(orient="records")
+        update_time = datetime.now().strftime(TIME_FMT)
+        save_to_redis("stock_all_spot_updatetime", update_time)
+        save_to_redis("stock_all_spot", json.dumps(df_dict))
+        data = {
+            "update_time": update_time,
+            "spot_data": df_dict,
+        }
+    except Exception as e:
+        data = {
+            "update_time": None,
+            "spot_data": None,
+            "error": str(e),
+        }
+    return data
 
 
 def read_stock_all_spot():
