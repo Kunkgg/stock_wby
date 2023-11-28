@@ -14,6 +14,8 @@
       v-el-table-infinite-scroll="loadMore"
       :infinite-scroll-disabled="disabledScrollLoad"
       height="500px"
+      :cell-style="cellStyle"
+      :header-cell-style="headerCellStyle"
     >
       <el-table-column prop="名称" label="名称" />
       <el-table-column prop="最新价" label="最新价" />
@@ -35,7 +37,7 @@
   </el-row>
 </template>
 <script>
-import { getStockSpot, getStockSpotList, getStockName } from "@/service/stock.js";
+import { getStockSpotList, getStockName } from "@/service/stock.js";
 
 export default {
   props: {
@@ -82,6 +84,32 @@ export default {
         this.td = this.td.concat(res.data.spot_data);
       });
     },
+    cellStyle({ row, column, rowIndex, columnIndex }) {
+      if (column.label === "持股比例" || column.label === "3年后估值") {
+        return {
+          color: "#409eff",
+          backgroundColor: "#f5f7fa",
+        };
+      } else if (column.label === "理想买点" || column.label === "1年内卖的") {
+        return {
+          color: "#529b2e",
+          backgroundColor: "#f5f7fa",
+        };
+      }
+    },
+    headerCellStyle({ row, column, rowIndex, columnIndex }) {
+      if (column.label === "持股比例" || column.label === "3年后估值") {
+        return {
+          color: "#ecf5ff",
+          backgroundColor: "#409eff",
+        };
+      } else if (column.label === "理想买点" || column.label === "1年内卖的") {
+        return {
+          color: "#f0f9eb",
+          backgroundColor: "#529b2e",
+        };
+      }
+    },
     getStockNames() {
 
 
@@ -92,3 +120,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.el-table .cell-class-name {
+  color: #409eff !important;
+  background-color: red;
+}
+</style>
