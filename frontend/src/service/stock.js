@@ -22,4 +22,24 @@ function refreshStockSpot() {
   });
 }
 
-export { getStockSpot, getStockSpotList, refreshStockSpot };
+function getStockName() {
+  return service({
+    url: `/stock/name`,
+    method: "get",
+  });
+}
+
+function getStockStatus() {
+  return service({
+    url: `/stock/status`,
+    method: "get",
+  });
+}
+
+export { 
+  getStockSpot,
+  getStockSpotList,
+  refreshStockSpot,
+  getStockName,
+  getStockStatus
+};

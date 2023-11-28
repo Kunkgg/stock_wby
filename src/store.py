@@ -37,9 +37,11 @@ def save_stock_all_spot():
         update_time = datetime.now().strftime(TIME_FMT)
         save_to_redis("stock_all_spot_updatetime", update_time)
         save_to_redis("stock_all_spot", json.dumps(df_dict))
+        save_to_redis("stock_all_spot_total", str(df.shape[0]))
         data = {
             "update_time": update_time,
             "spot_data": df_dict,
+            "total": df.shape[0],
         }
     except Exception as e:
         data = {
@@ -65,3 +67,11 @@ def read_stock_all_spot_updatetime():
         return None
 
     return datetime.strptime(value.decode("utf-8"), TIME_FMT)
+
+
+def read_stock_all_spot_total():
+    value = read_from_redis("stock_all_spot_total")
+    if not value:
+        return None
+
+    return int(value.decode("utf-8"))
