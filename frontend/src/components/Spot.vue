@@ -16,6 +16,7 @@
       height="500px"
       :cell-style="cellStyle"
       :header-cell-style="headerCellStyle"
+      @row-dblclick="handleRowDblclick"
     >
       <el-table-column prop="名称" label="名称" />
       <el-table-column prop="最新价" label="最新价" />
@@ -110,12 +111,12 @@ export default {
         };
       }
     },
+    handleRowDblclick() {
+      console.log("handleRowDblclick");
+    },
     getStockNames() {
-
-
     },
     handleSelect() {
-
     }
   },
 };
