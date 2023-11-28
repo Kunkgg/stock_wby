@@ -3,7 +3,7 @@ services:
     image: redis:latest
     ports:
       - '6379:6379'
-  api:
+  backend:
     build:
       context: .
     container_name: fastapi-application
@@ -14,4 +14,10 @@ services:
     restart: "no"
     depends_on:
       - redis
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    ports:
+      - '3000:3000'
     
