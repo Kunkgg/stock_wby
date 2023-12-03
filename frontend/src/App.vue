@@ -3,43 +3,28 @@ import { RouterLink, RouterView } from "vue-router";
 </script>
 
 <template>
-  <el-header style="height: 5rem;">
+  <el-header style="height: 5rem;" class="width-80">
     <h1 class="header-title">WBY Stock</h1>
-    <el-row class="header-subtitle">
-      <el-text type="info">Update Time: {{ updateTime }}</el-text>
-      <el-text type="info">Total: {{ total }}</el-text>
-      <el-button
-        :icon="Refresh"
-        :loading="refreshLoading"
-        type="primary"
-        circle
-        size="small"
-        @click="handleRefreshClick()"/>
-    </el-row>
+    <el-menu
+      default-active="combination"
+      :router="true"
+      mode="horizontal"
+    >
+      <el-menu-item index="combination">投资组合</el-menu-item>
+      <el-menu-item index="net-asset-value">净值跟踪</el-menu-item>
+      <el-menu-item index="user">用户</el-menu-item>
+      <el-menu-item index="about">关于</el-menu-item>
+    </el-menu>
   </el-header>
   <el-main class="width-80">
-    <el-tabs v-model="activeName" @tab-click="handleTabClick">
-      <el-tab-pane label="Spot" name="Spot">
-        <Spot :key="`spot-${spotKeyIndex}`" :total="total"></Spot>
-      </el-tab-pane>
-      <el-tab-pane label="Custom" name="custom">
-        <Custom :key="`custom-${customKeyIndex}`" :keyIndex="customKeyIndex"></Custom>
-      </el-tab-pane>
-    </el-tabs>
+    <router-view></router-view>
   </el-main>
 </template>
 
 <script>
-import Spot from './components/Spot.vue'
-import Custom from './components/Custom.vue'
 import { Refresh } from '@element-plus/icons-vue'
-import { getStockStatus, refreshStockSpot } from "./service/stock";
 
 export default {
-  components: {
-    Spot,
-    Custom
-  },
   data() {
     return {
       activeName: 'Spot',
@@ -52,28 +37,8 @@ export default {
     }
   },
   methods: {
-    handleTabClick(tab, event) {
-      console.log(tab, event);
-    },
-    handleRefreshClick() {
-      this.refreshLoading = true;
-      this.updateTime = 'xxxx-xx-xx xx:xx:xx';
-      this.total = 0;
-
-      refreshStockSpot().then((res) => {
-        this.updateTime = res.data.update_time;
-        this.total = res.data.total;
-        this.refreshLoading = false;
-        this.spotKeyIndex += 1;
-        this.customKeyIndex += 1;
-      });
-    },
   },
   mounted() {
-    getStockStatus().then((res) => {
-      this.updateTime = res.data.update_time;
-      this.total = res.data.total;
-    });
   }
 }
 </script>

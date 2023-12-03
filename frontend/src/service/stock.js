@@ -22,10 +22,11 @@ function refreshStockSpot() {
   });
 }
 
-function getStockName() {
+function getStockName(params) {
   return service({
     url: `/stock/name`,
     method: "get",
+    params: params
   });
 }
 
