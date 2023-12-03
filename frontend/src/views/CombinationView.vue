@@ -1,8 +1,15 @@
 <template>
-  <el-empty>
-    <el-button type="primary" @click="dialogVisible = true">创建组合</el-button>
-  </el-empty>
+   <el-row justify="center">
+        <el-col :span="6" class="grid-content">
+            <el-statistic title="组合数量" :value="combinationCount" style="padding-top: 2rem;"/>
+            <el-button type="primary" @click="dialogVisible = true" size="small">创建组合</el-button>
+        </el-col>
+    </el-row>
 
+    <el-row>
+
+
+    </el-row>
   <el-dialog
     v-model="dialogVisible"
     title="创建组合"
@@ -44,5 +51,12 @@ const handleCreateCancel = () => {
 
 </script>
 
+<style scoped>
+.grid-content {
+  border-radius: 4px;
+  min-height: 2rem;
+  text-align: center;
+}
+</style>
 
 
