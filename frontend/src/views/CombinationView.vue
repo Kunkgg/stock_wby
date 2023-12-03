@@ -8,7 +8,7 @@
     title="创建组合"
     width="60%"
   >
-    <combination-create></combination-create>
+    <combination-create ref="child" :key="`creator-${creatorIndex}`"></combination-create>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="handleCreateCancel">取消</el-button>
@@ -22,14 +22,23 @@
 import { ref } from "vue";
 import CombinationCreate from "@/components/CombinationCreate.vue";
 
+
+const child = ref(null);
+
 const dialogVisible = ref(false);
 
 const handleCreateConfirm = () => {
   dialogVisible.value = false;
   console.log("confirm");
+  console.log(child.value.combinationName);
+  console.log(child.value.combinationDescription);
+  console.log(child.value.settingStocks);
 };
+
+let creatorIndex = ref(0);
 const handleCreateCancel = () => {
   dialogVisible.value = false;
+  creatorIndex.value++;
   console.log("cancel");
 };
 

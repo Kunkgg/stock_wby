@@ -31,14 +31,15 @@
                 />
             </el-col>
             <el-col :span="4">
-                <el-button :icon="Search" class="btn" @click="handlerSearchBtn">搜索</el-button>
+                <el-button :icon="Search" class="btn" @click="handlerSearchBtn">添加</el-button>
                 <el-button :icon="Delete" class="btn" @click="handlerClearBtn" type="danger">清空</el-button>
             </el-col>
         </el-row>
         <el-table v-if="selectedStocks.length > 0" :data="selectedStocks" style="width: 100%">
+            <el-table-column type="index" label="#"/>
             <el-table-column prop="stockCode" label="股票代码" />
             <el-table-column prop="stockName" label="股票名称" />
-            <el-table-column fixed="right" label="Operations">
+            <el-table-column fixed="right" label="操作">
             <template #default="scope">
                 <el-button
                 link
@@ -53,7 +54,45 @@
         </el-table>
     </template>
     <template v-else>
-        <h1>设置</h1>
+         <vxe-table
+            show-overflow
+            :data="settingStocks"
+            :column-config="{resizable: true}"
+            :edit-config="{trigger: 'click', mode: 'cell'}">
+            <vxe-column type="seq" width="60"></vxe-column>
+            <vxe-column field="代码" title="代码"></vxe-column>
+            <vxe-column field="名称" title="名称"></vxe-column>
+            <vxe-column field="最新价" title="最新价" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                <vxe-input v-model="row['最新价']" type="number"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="总市值" title="总市值" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                <vxe-input v-model="row['总市值']" type="number"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="年初至今涨跌幅" title="年内涨跌幅" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                <vxe-input v-model="row['年初至今涨跌幅']" type="number"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="eval_3y" title="三年后合理估值" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                <vxe-input v-model="row['eval_3y']" type="number"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="holding_ratio" title="持股比例" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                <vxe-input v-model="row['holding_ratio']" type="number"></vxe-input>
+                </template>
+            </vxe-column>
+            <vxe-column field="holding_count" title="持股数" :edit-render="{autofocus: '.vxe-input--inner'}">
+                <template #edit="{ row }">
+                <vxe-input v-model="row['holding_count']" type="number"></vxe-input>
+                </template>
+            </vxe-column>
+        </vxe-table>
     </template>
     <el-row style="margin-top: 2rem;">
         <el-button :disabled="isFirstStep" style="margin-top: auto 12px;" @click="prev" type="primary">上一步</el-button>
@@ -66,13 +105,24 @@
 import { ref, computed } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { Delete } from '@element-plus/icons-vue'
-import { getStockName } from '@/service/stock'
+import { getStockName, getStockSpotList } from '@/service/stock'
 
 let firstStep = 1;
 let lastStep = 3;
 const active = ref(1)
+let settingStocks = ref([])
 
 const next = () => {
+  if (active.value === 2 && selectedStocks.value.length > 0) {
+    let stockCodes = selectedStocks.value.map((item) => item.stockCode)
+    console.log(active.value)
+    let params = {
+        "stock_code": stockCodes.join(",")
+    }
+    getStockSpotList(params).then((res) => {
+        settingStocks.value = res.data.spot_data
+    })
+  }
   if (active.value < lastStep) active.value++
 }
 const prev = () => {
@@ -94,6 +144,7 @@ const searchStocks = ref('')
 let selectedStocks = ref([])
 const handlerClearBtn = () => {
     selectedStocks.value = []
+    searchStocks.value = ''
 }
 const deleteRow = (index: number) => {
   selectedStocks.value.splice(index, 1)
@@ -120,6 +171,14 @@ const handlerSearchBtn = () => {
 }
 
 // step 3
+
+
+// expose
+defineExpose({
+  combinationName,
+  combinationDescription,
+  settingStocks,
+})
 </script>
 <style scoped>
 .btn {
