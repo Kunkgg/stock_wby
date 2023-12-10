@@ -105,7 +105,7 @@
 import { ref, computed } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { Delete } from '@element-plus/icons-vue'
-import { getStockName, getStockSpotList } from '@/service/stock'
+import { getStockName, getStockSpotList } from '@/service/stock';
 
 let firstStep = 1;
 let lastStep = 3;

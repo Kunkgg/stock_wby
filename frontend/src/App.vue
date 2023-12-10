@@ -10,10 +10,10 @@ import { RouterLink, RouterView } from "vue-router";
       :router="true"
       mode="horizontal"
     >
-      <el-menu-item index="combination">投资组合</el-menu-item>
-      <el-menu-item index="net-asset-value">净值跟踪</el-menu-item>
-      <el-menu-item index="user">用户</el-menu-item>
-      <el-menu-item index="about">关于</el-menu-item>
+      <el-menu-item index="combination" :route="{name: 'combination'}">投资组合</el-menu-item>
+      <el-menu-item index="net-asset-value" :route="{name: 'net-asset-value'}">净值跟踪</el-menu-item>
+      <el-menu-item index="user" :route="{name: 'user'}">用户</el-menu-item>
+      <el-menu-item index="about" :route="{name: 'about'}">关于</el-menu-item>
     </el-menu>
   </el-header>
   <el-main class="width-80">

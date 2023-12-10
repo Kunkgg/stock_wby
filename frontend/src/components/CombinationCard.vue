@@ -1,6 +1,3 @@
-// Combination Card 组件, 用于显示股票组合的卡片, 基于 element-ui plus 实现
-// 显示组合名称, 组合描述, 组合包含的股票数量, 更新次数, 更新时间
-
 <template>
     <el-card shadow="hover" class="box-card">
         <span>{{ combinationName }}</span>

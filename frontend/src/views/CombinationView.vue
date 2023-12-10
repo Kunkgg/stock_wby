@@ -8,7 +8,7 @@
 
     <el-row :gutter="20" style="margin-top: 2rem;" justify="center">
         <el-col :sm="16" :md="8" :lg="6" v-for="index in 12" :key="`card-${index}`" class="grid-content">
-            <combination-card></combination-card>
+            <combination-card @click="handleClickCard"></combination-card>
         </el-col>
     </el-row>
   <el-dialog
@@ -28,6 +28,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import CombinationCreate from "@/components/CombinationCreate.vue";
 import CombinationCard from "@/components/CombinationCard.vue";
 
@@ -35,6 +36,8 @@ const combinationCount= ref(0);
 
 const child = ref(null);
 const dialogVisible = ref(false);
+
+const router = useRouter();
 
 const handleCreateConfirm = () => {
   dialogVisible.value = false;
@@ -49,6 +52,12 @@ const handleCreateCancel = () => {
   dialogVisible.value = false;
   creatorIndex.value++;
   console.log("cancel");
+};
+
+const handleClickCard = () => {
+  console.log("click card");
+  // 使用 router 跳转到 CombinationDetailView
+  router.push({ name: "combination-detail", params: {combinationId: 1} });
 };
 
 </script>

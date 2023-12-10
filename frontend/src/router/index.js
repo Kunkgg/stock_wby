@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CombinationView from '../views/CombinationView.vue'
+import CombinationDetailView from '../views/CombinationDetailView.vue'
 import NetAssetValueView from '../views/NetAssetValueView.vue'
 import UserView from '../views/UserView.vue'
 
@@ -16,6 +17,11 @@ const router = createRouter({
       path: '/combination',
       name: 'combination',
       component: CombinationView
+    },
+    {
+      path: '/combination/:combinationId',
+      name: 'combination-detail',
+      component: CombinationDetailView
     },
     {
       path: '/net-asset-value',
