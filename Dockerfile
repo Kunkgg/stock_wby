@@ -8,5 +8,5 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt -i https://mi
 
 COPY ./src /code/src
 
-CMD ["uvicorn", "src.api:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "80"]
+CMD ["python", "/code/src/main.py"]
 

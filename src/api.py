@@ -21,8 +21,6 @@ class Market(str, Enum):
     HK_A = "HK,A"
 
 
-import debugpy
-debugpy.listen(5678)
 
 save_stock_all_spot()
 app = FastAPI()
